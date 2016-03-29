@@ -1,4 +1,6 @@
+#include <iostream>
 #include "Student.h"
+using namespace std;
 
 int main()
 {
@@ -6,44 +8,62 @@ int main()
 	Student student1("yifatushyifatushyifatushyifatush","12222");
 	Student studentinValid("yifatushyifatushyifatushyifatush","hjkio");
 	Student studentValid("valid","11111");
-//	BookTitle book;
-//	Journal journal;
-//	WorkbookTitle workbook;
-//	ResearchTitle research;
-
-	student.print();
+	studentValid.isEqual(studentValid);
 	student1.print();
 	studentinValid.print();
+	cout<<"avarage: "<<student.getAverage()<<endl;
+	student.addGrade(12);
+	student.print();
+	cout<<"avarage: "<<student.getAverage()<<endl;
+	student.addGrade(15);
+	student.addGrade(15);
+	student.addGrade(15);
+	student.addGrade(15);
+	student.addGrade(15);
+	cout<<"max grade: "<<Student::getMaxGrade()<<endl;
+	student.print();
+	cout<<"avarage: "<<student.getAverage()<<endl;
+	student.addGrade(15);
+	student.addGrade(15);
+	student.addGrade(15);
+	student.addGrade(15);
+	cout<<"is equal to himself with values:"<<student.isEqual(student)<<endl;
 	studentValid.print();
-//	book.SetName("The Green Monkey");
-//	book.SetAuthor( "John Grishem" );
-//	book.SetAddition( 2 );
-//	book.Print();
-//
-//	journal.SetName( "Blazer" );
-//	journal.SetAuthor( "Yediot Aharonot" );
-//	journal.SetYear( 1855 );
-//	journal.Print();
-//
-//	workbook.SetName( "Learn c++" );
-//	workbook.SetAuthor( "Jonny Jonny" );
-//	workbook.SetCourse( "OOP" );
-//	workbook.Print();
-//
-//	research.SetName( "Robotics" );
-//	research.SetAuthor( "Someone" );
-//	research.SetSupervisor( "Somebody" );
-//	research.Print();
-//
-//	BookTitle book1( "The Green Monkey", "John Grishem", 2 );
-//	Journal journal1( "Blazer", "Yediot Aharonot", 1855 );
-//	WorkbookTitle workbook1( "Learn c++", "Jonny Jonny", "OOP" );
-//	ResearchTitle research1( "Robotics", "Someone", "Somebody" );
-//
-//	book1.Print();
-//	journal1.Print();
-//	workbook1.Print();
-//	research1.Print();
+	student.print();
+	student.addGrade(15);
+	student.addGrade(15);
+	student.addGrade(15);
+	cout<<"have fails :";
+	std::cout << std::boolalpha << student.isFail() << std::endl;
+	student.removeGrade(15);
+	student.print();
+	cout<<"avarage: "<<student.getAverage()<<endl;
+	student.addGrade(0);
+	student.print();
+	student.removeGrade(13);
+	student.print();
+	student.removeGrade(12);
+	student.print();
+	student.removeGrade(12);
+	student.print();
+	cout<<"No values is fail false :";
+	std::cout << std::boolalpha << student.isFail() << std::endl;
+	studentValid.addGrade(80);
+	cout<<studentValid.getStudentMaxGrade()<<endl;
+	cout<<student.getStudentMaxGrade()<<endl;
+	cout<<student.getMaxGrade()<<endl;
+	cout<<"No failed false :";
+	std::cout << std::boolalpha << studentValid.isFail() << std::endl;
+	studentValid.addGrade(15);
+	cout<<"max grade: "<<Student::getMaxGrade()<<endl;
+	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
+	cout<<"isEqual true:"<<student.isEqual(studentValid);
+	studentValid.print();
+	student.addGrade(15);
+	student.print();
+	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
+	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
+
 
 	return 0;
 }
