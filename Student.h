@@ -8,18 +8,18 @@
 #define MAX_NAME_LENGTH 20
 #define DEFAULT_NAME "none"
 #define DEFAULT_NAME_LENGTH 5
-#define DEFUALT_ID "99999"
-#define ID_LENGTH 6
+#define DEFUALT_ID 99999
+#define ID_LENGTH 5
 
 
 class Student {
     char* m_name;
-    char* m_studentId;
+    const int m_studentId;
     public:
     Student();
     Student(const char* name,const char* id);
     bool SetName(const char* name);
-    bool SetStudentId(const char* id);
+    int initStudentId(const char* id);
     void print()const;
 };
 

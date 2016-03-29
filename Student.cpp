@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Student::Student():m_name(NULL),m_studentId(NULL) {
+Student::Student():m_name(NULL),m_studentId(DEFUALT_ID) {
 
 }
 
@@ -26,30 +26,22 @@ bool Student::SetName(const char *name) {
 
 }
 
-bool Student::SetStudentId(const char* id) {
-    if(strlen(id)==5){
+int Student::initStudentId(const char* id) {
+    if(strlen(id)==ID_LENGTH){
         for (int i = 0; i < strlen(id); ++i) {
             if(!isdigit(id[i])){
-                return false;
+                return DEFUALT_ID;
             }
         }
-        if( m_studentId!=NULL)
-            delete[] m_studentId;
-        m_studentId = new char[strlen(id) + 1];
-        strcpy( m_studentId, id);
-        return true;
+        return stoi(id);
     }
-    return false;
+    return DEFUALT_ID;
 }
 
-Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(NULL){
+Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id)){
     if(!SetName(name)) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);
-    }
-    if(!SetStudentId(id)) {
-        m_studentId = new char(ID_LENGTH);
-        strcpy(m_studentId, DEFUALT_ID);
     }
 }
 

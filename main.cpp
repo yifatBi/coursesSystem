@@ -1,7 +1,3 @@
-#include "BookTitle.h"
-#include "Journal.h"
-#include "Workbook_Title.h"
-#include "Research_Title.h"
 #include "Student.h"
 
 int main()
