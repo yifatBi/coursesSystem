@@ -28,12 +28,14 @@ private:
     static int maxGrade;
     int m_maxGrade = 0;
     int numOfGrades = 0;
+    int initStudentId(const char* id)const;
+    int initStudentId(int id)const;
     void printGradesArray()const;
     public:
     Student();
     Student(const char* name,const char* id);
+    Student(const char* name,int id);
     bool SetName(const char* name);
-    int initStudentId(const char* id);
     bool addGrade(const int grade);
     bool removeGrade(const int grade);
     bool isEqual(Student& student)const;

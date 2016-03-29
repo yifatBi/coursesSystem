@@ -26,7 +26,7 @@ bool Student::SetName(const char *name) {
 
 }
 
-int Student::initStudentId(const char* id) {
+int Student::initStudentId(const char* id)const {
     if(strlen(id)==ID_LENGTH){
         for (int i = 0; i < strlen(id); ++i) {
             if(!isdigit(id[i])){
@@ -35,6 +35,14 @@ int Student::initStudentId(const char* id) {
         }
         return stoi(id);
     }
+    return DEFUALT_ID;
+}
+int Student::initStudentId(int number)const {
+    int digits = 0;
+    while (number != 0||digits>ID_LENGTH) {
+        number /= 10; digits++; }
+    if(digits== ID_LENGTH)
+        return number;
     return DEFUALT_ID;
 }
 
@@ -71,17 +79,18 @@ bool Student::addGrade(const int grade) {
             m_grades[0]=grade;
         }else{
             int* tempArray =NULL;
-            tempArray= new int[(sizeof(m_grades)/sizeof(int))];
+            tempArray= new int[m_maxGradeNum];
             for (int i = 0; i <m_maxGradeNum ; ++i) {
                 tempArray[i]=m_grades[i];
             }
             delete[] m_grades;
             m_grades = NULL;
-            m_grades = new int[(sizeof(tempArray)+sizeof(sizeof(int)))];
+            m_grades = new int[m_maxGradeNum+1];
             for (int i = 0; i <m_maxGradeNum ; ++i) {
                 m_grades[i]=tempArray[i];
             }
             m_grades[m_maxGradeNum]=grade;
+            delete[] tempArray;
         }
         if(grade>maxGrade)
             Student::maxGrade = grade;
@@ -160,4 +169,11 @@ bool Student::isEqual(Student &student) const{
                return false;
     }
     return true;
+}
+
+Student::Student(const char *name, int id):m_name(NULL),m_studentId(initStudentId(id)){
+    if(!SetName(name)) {
+        m_name = new char(DEFAULT_NAME_LENGTH);
+        strcpy(m_name, DEFAULT_NAME);
+    }
 }
