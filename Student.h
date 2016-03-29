@@ -36,7 +36,7 @@ private:
     int initStudentId(const char* id);
     bool addGrade(const int grade);
     bool removeGrade(const int grade);
-    bool isEqual(Student& student);
+    bool isEqual(Student& student)const;
     const float getAverage()const{ return m_avg;};
     static int getMaxGrade(){ return maxGrade;}
     int const getStudentMaxGrade()const{ return m_maxGrade;}

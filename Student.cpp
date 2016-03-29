@@ -147,7 +147,7 @@ const bool Student::isFail() {
     return false;
 }
 
-bool Student::isEqual(Student &student) {
+bool Student::isEqual(Student &student) const{
     bool isEqual=true;
     for (int i = 0; i <m_maxGradeNum; ++i) {
         isEqual=false;

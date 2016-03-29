@@ -57,7 +57,7 @@ int main()
 	studentValid.addGrade(15);
 	cout<<"max grade: "<<Student::getMaxGrade()<<endl;
 	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
-	cout<<"isEqual true:"<<student.isEqual(studentValid);
+	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
 	studentValid.print();
 	student.addGrade(15);
 	student.print();
