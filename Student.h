@@ -43,6 +43,7 @@ private:
     static int getMaxGrade(){ return maxGrade;}
     int const getStudentMaxGrade()const{ return m_maxGrade;}
     const bool isFail();
+    int getId()const{ return m_studentId;};
     void print()const;
     ~Student();
 };

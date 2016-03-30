@@ -39,8 +39,9 @@ int Student::initStudentId(const char* id)const {
 }
 int Student::initStudentId(int number)const {
     int digits = 0;
-    while (number != 0||digits>ID_LENGTH) {
-        number /= 10; digits++; }
+    int copyNumber = number;
+    while (copyNumber != 0||digits>ID_LENGTH) {
+        copyNumber /= 10; digits++; }
     if(digits== ID_LENGTH)
         return number;
     return DEFUALT_ID;
@@ -171,7 +172,7 @@ bool Student::isEqual(Student &student) const{
     return true;
 }
 
-Student::Student(const char *name, int id):m_name(NULL),m_studentId(initStudentId(id)){
+Student::Student(const char *name, int id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(NULL){
     if(!SetName(name)) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);

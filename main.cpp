@@ -1,9 +1,21 @@
 #include <iostream>
 #include "Student.h"
+#include "Course.h"
+
 using namespace std;
 
 int main()
 {
+	Course course;
+	cout<<"is equal :" <<course.isEqual(11111,22222)<<endl;
+	cout<<"is equal :" <<course.isEqual(22222,11111)<<endl;
+//	cout<<course.findStudent(12345)<<endl;
+//	cout<<course.findStudent(12366)<<endl;
+//	course.print();
+//	course.switchStudents(12345,67890);
+//	course.print();
+//	course.removeStudent(12345);
+//	cout<<"Find removed student : "<<course.findStudent(12345)<<endl;
 	Student student("yifatush","122");
 	Student student1("yifatushyifatushyifatushyifatush","12222");
 	Student studentinValid("yifatushyifatushyifatushyifatush","hjkio");
