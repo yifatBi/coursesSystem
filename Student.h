@@ -10,8 +10,8 @@
 #define DEFAULT_NAME_LENGTH 5
 #define DEFUALT_ID 99999
 #define ID_LENGTH 5
-#define MIN_GRADE 1
-#define MAX_GRADE 100
+#define MIN_GRADE_NUM 1
+#define MAX_GRADE_NUM 100
 #define GRADES_FREQ_SIZE 100
 #define PASS_GRADE 60
 
@@ -21,30 +21,50 @@ private:
     char* m_name;
     const int m_studentId;
     int totalGrade = 0;
-    static int m_grades_frequancy[GRADES_FREQ_SIZE];
+    static int GRADES_FREQUENCY[GRADES_FREQ_SIZE];
     int* m_grades;
     float m_avg=0;
-    int m_maxGradeNum = 0;
+    int m_numOfEnteredGrades = 0;
     static int maxGrade;
-    int m_maxGrade = 0;
-    int numOfGrades = 0;
+    int m_studentMaxGrade = 0;
+    int m_numOfGrades = 0;
+    /**
+     * Use for init the Id because it const
+     * return the expected student value with the given id
+     */
     int initStudentId(const char* id)const;
     int initStudentId(int id)const;
-    void printGradesArray()const;
+    void printFrequencyGradesArray()const;
+    void updateMaxGrade();
     public:
     Student();
     Student(const char* name,const char* id);
     Student(const char* name,int id);
     bool SetName(const char* name);
-    bool addGrade(const int grade);
+    /**
+     * add Grade to the grades array only if valid
+     * and update the frequency maxGrade and avg according to the grade
+     */
+    void addGrade(const int grade);
+    /**
+     * remove Grade to the grades array only if valid
+     * and update the frequency maxGrade and avg according to the grade
+     */
     bool removeGrade(const int grade);
-    bool isEqual(Student& student)const;
+    /**
+     * check if all grades of current student exist in the grades of student given as parameter
+     */
+    bool isEqual(Student student)const;
     const float getAverage()const{ return m_avg;};
     static int getMaxGrade(){ return maxGrade;}
-    int const getStudentMaxGrade()const{ return m_maxGrade;}
+    int const getStudentMaxGrade()const{ return m_studentMaxGrade;}
+    /**
+     * Check if have Fails grades (Under the PASS_GRADE)
+     */
     const bool isFail();
     int getId()const{ return m_studentId;};
     void print()const;
+    static void printGradeFrequency();
     ~Student();
 };
 

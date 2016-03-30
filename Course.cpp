@@ -17,9 +17,6 @@ Course::Course():default1(DEFAULT_NAME_1, DEFAULT_ID_1),default2(DEFAULT_NAME_2,
     m_students[1]=NULL;
     m_students[0]= &default1;
     m_students[1]= &default2;
-    default1.addGrade(20);
-    default2.addGrade(20);
-    default2.addGrade(15);
 }
 
 const int Course::findStudent(const int idToFind) const {
@@ -34,7 +31,6 @@ const int Course::findStudent(const int idToFind) const {
 void Course::removeStudent(const int idToRemove) {
     int indexToRemove = findStudent(idToRemove);
     if(indexToRemove!=NOT_EXIST) {
-//        delete (m_students[indexToRemove]);
         m_students[indexToRemove] = NULL;
         delete (m_students[indexToRemove]);
         studentsNum--;
@@ -66,9 +62,22 @@ const bool Course::isEqual(const int firstId, const int secondId) const {
     if(firstId==secondId)
         return true;
     if((firstIndex!=NOT_EXIST)&&(secondIndex!=NOT_EXIST)) {
-//        Student first = *m_students[firstIndex];
-//        Student second = *m_students[secondIndex];
         return (*m_students[firstIndex]).isEqual(*m_students[secondIndex]);
     }
     return false;
+}
+
+const Student Course::getStudent(const int idToFind) const {
+    int index = findStudent(idToFind);
+    if(index!=NOT_EXIST)
+        return *m_students[index];
+    return Student();
+}
+
+Course::Course(Student &student1, Student &student2) {
+    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE]{NULL};
+    m_students[0]=NULL;
+    m_students[1]=NULL;
+    m_students[0]= &student1;
+    m_students[1]= &student2;
 }

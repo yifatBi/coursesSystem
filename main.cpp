@@ -9,6 +9,8 @@ int main()
 	Course course;
 	cout<<"is equal :" <<course.isEqual(11111,22222)<<endl;
 	cout<<"is equal :" <<course.isEqual(22222,11111)<<endl;
+	cout<<"get student";
+	course.getStudent(11111).print();
 //	cout<<course.findStudent(12345)<<endl;
 //	cout<<course.findStudent(12366)<<endl;
 //	course.print();
@@ -45,9 +47,12 @@ int main()
 	student.addGrade(15);
 	student.addGrade(15);
 	student.addGrade(15);
+	Student::printGradeFrequency();
 	cout<<"have fails :";
 	std::cout << std::boolalpha << student.isFail() << std::endl;
 	student.removeGrade(15);
+	cout<<"remove grade 15 :";
+	Student::printGradeFrequency();
 	student.print();
 	cout<<"avarage: "<<student.getAverage()<<endl;
 	student.addGrade(0);
@@ -71,10 +76,15 @@ int main()
 	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
 	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
 	studentValid.print();
+	Student::printGradeFrequency();
+	cout<<"Max Grade:"<<Student::getMaxGrade()<<endl;
 	student.addGrade(15);
 	student.print();
+	Course course2(student,studentValid);
 	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
+	cout<<"isEqual true:"<<course2.isEqual(student.getId(),studentValid.getId())<<endl;
 	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
+	cout<<"isEqual false:"<<course2.isEqual(studentValid.getId(),student.getId())<<endl;
 
 
 	return 0;
