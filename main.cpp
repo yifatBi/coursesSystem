@@ -57,12 +57,13 @@ int main()
 	if(course.getStudent(DEFAULT_ID_1)!=NULL) {
 		(*course.getStudent(DEFAULT_ID_1)).print();
 	}
-		pStudent1 = (course.getStudent(DEFAULT_ID_1));
-		(*pStudent1).addGrade(12);
-		cout<<"init course with 2equal pointers--->course with 1 student"<<endl;
-		Course course2(pStudent1, pStudent1);
-		course2.print();
+	pStudent1 = (course.getStudent(DEFAULT_ID_1));
+	(*pStudent1).addGrade(12);
+	cout<<"add grade to student via getStudent"<<endl;
 	course.print();
+	cout<<"init course with 2equal pointers--->course with 1 student"<<endl;
+	Course course2(pStudent1, pStudent1);
+	course2.print();
 	cout<<"Check is equal expected result false---->"<<boolalpha<<course.isEqual(DEFAULT_ID_1,DEFAULT_ID_2)<<endl;
 	cout<<"Check is equal expected result true---->"<<boolalpha<<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_1)<<endl;
 	cout<<"Check is equal expected result true---->"<<boolalpha<<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_2)<<endl;

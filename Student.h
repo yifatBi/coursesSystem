@@ -18,9 +18,9 @@ class Student {
 private:
     char* m_name;
     const int m_studentId;
-    int totalGrade = 0;
+    int m_totalGrade = 0;
     static int GRADES_FREQUENCY[MAX_OPTIONAL_GRADE];
-    int _studentGradesFrequency[MAX_OPTIONAL_GRADE];
+    int m_studentGradesFrequency[MAX_OPTIONAL_GRADE];
     int* m_grades;
     float m_avg=0;
     int m_numOfEnteredGrades = 0;

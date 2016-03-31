@@ -15,13 +15,15 @@ using namespace std;
 
 class Course {
     Student ** m_students;
-    int studentsNum = 2;
+    int m_studentsNum = 2;
     /**
      * create a student with the given values and return it as reference
      */
     Student* createStudent(const char* name,const int id)const;
+    /**
+     * init students array with the default values
+     */
     void initDefault();
-    Student createStudent2(const char* name,const int id)const;
 public:
     /**
      * find the student according id from the student list of the course
@@ -50,6 +52,7 @@ public:
     const bool isEqual(const int firstId,const int secondId)const;
     void print()const;
     Course();
+    ~Course();
     Course(Student& student1,Student&student2);
     Course(Student* student1,Student* student2);
 };

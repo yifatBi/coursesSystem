@@ -8,7 +8,7 @@ Course::Course():m_students(NULL) {
 }
 
 const int Course::findStudent(const int idToFind) const {
-    for (int i = 0; i < studentsNum; ++i) {
+    for (int i = 0; i < m_studentsNum; ++i) {
         if(m_students[i]!=NULL&&(*m_students[i]).getId()==idToFind) {
           return i;
       }
@@ -39,7 +39,7 @@ void Course::switchStudents(const int firstId, const int secondId) {
 
 void Course::print() const {
     int lastIndex=0;
-    for (int i = 0; i < studentsNum; ++i) {
+    for (int i = 0; i < m_studentsNum; ++i) {
         if(m_students[i]!=NULL){
          cout<< lastIndex<<" ";
             (m_students[i])->print();
@@ -77,21 +77,18 @@ Course::Course(Student &student1, Student &student2) {
 Student *Course::createStudent(const char *name, const int id) const {
     return new Student[1]{Student(name,id)};
 }
-Student Course::createStudent2(const char *name, const int id) const {
-    return Student(name,id);
-}
 
 void Course::addStudent(const int idToAdd) {
     int expectedId = Student::expectedStudentId(idToAdd);
     //Check that the student not exist and the id is valid
     //add dynamically element to the grades
     if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
-        Student** tempStudentArray = new Student*[studentsNum+1];
-        copy(m_students,m_students+studentsNum,tempStudentArray);
-        tempStudentArray[studentsNum] = createStudent("",idToAdd);
+        Student** tempStudentArray = new Student*[m_studentsNum + 1];
+        copy(m_students, m_students + m_studentsNum, tempStudentArray);
+        tempStudentArray[m_studentsNum] = createStudent("", idToAdd);
         delete[] m_students;
         m_students = tempStudentArray;
-        studentsNum++;
+        m_studentsNum++;
     }
 }
 
@@ -112,4 +109,9 @@ Course::Course(Student *student1, Student *student2) {
 void Course::initDefault() {
     m_students[0]= createStudent(DEFAULT_NAME_1, DEFAULT_ID_1);
     m_students[1]= createStudent(DEFAULT_NAME_2, DEFAULT_ID_2);
+}
+
+Course::~Course() {
+    if(m_students!=NULL)
+        delete[] m_students;
 }
