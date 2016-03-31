@@ -4,7 +4,6 @@
 
 #ifndef _STUDENT_H
 #define _STUDENT_H
-#include <string.h>
 #define MAX_NAME_LENGTH 20
 #define DEFAULT_NAME "none"
 #define DEFAULT_NAME_LENGTH 5
