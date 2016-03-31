@@ -3,20 +3,14 @@
 //
 
 #include "Course.h"
-#define NOT_EXIST -1
-#define DEFAULT_NAME_1 "auto1"
-#define DEFAULT_NAME_2 "auto2"
-//#define DEFAULT_ID_1 12345
-//#define DEFAULT_ID_2 67890
-#define DEFAULT_ID_1 11111
-#define DEFAULT_ID_2 22222
 
-Course::Course():default1(DEFAULT_NAME_1, DEFAULT_ID_1),default2(DEFAULT_NAME_2, DEFAULT_ID_2),m_students(NULL) {
+
+Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE]{NULL};
     m_students[0]=NULL;
     m_students[1]=NULL;
-    m_students[0]= &default1;
-    m_students[1]= &default2;
+    m_students[0]= createStudent(DEFAULT_NAME_1, DEFAULT_ID_1);
+    m_students[1]= createStudent(DEFAULT_NAME_2, DEFAULT_ID_2);
 }
 
 const int Course::findStudent(const int idToFind) const {
@@ -67,11 +61,11 @@ const bool Course::isEqual(const int firstId, const int secondId) const {
     return false;
 }
 
-const Student Course::getStudent(const int idToFind) const {
+Student* Course::getStudent(const int idToFind) const {
     int index = findStudent(idToFind);
     if(index!=NOT_EXIST)
-        return *m_students[index];
-    return Student();
+        return m_students[index];
+    return NULL;
 }
 
 Course::Course(Student &student1, Student &student2) {
@@ -81,3 +75,34 @@ Course::Course(Student &student1, Student &student2) {
     m_students[0]= &student1;
     m_students[1]= &student2;
 }
+
+Student *Course::createStudent(const char *name, const int id) const {
+    return new Student(name,id);
+}
+int expectedIdNum(int id) {
+    int digits = 0;
+    int copyNumber = id;
+    while (copyNumber != 0 || digits > ID_LENGTH) {
+        copyNumber /= 10;
+        digits++;
+    }
+    if (digits == ID_LENGTH)
+        return id;
+    return DEFUALT_ID;
+}
+void Course::addStudent(const int idToAdd) {
+    int expectedId = expectedIdNum(idToAdd);
+    //Check that the student not exist and the id is valid
+    if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
+        Student** tempStudentArray = new Student*[studentsNum+1];
+        copy(m_students,m_students+studentsNum,tempStudentArray);
+        tempStudentArray[studentsNum] = createStudent("",idToAdd);
+        delete[] m_students;
+        m_students = tempStudentArray;
+//        *m_students = new Student[studentsNum+1];
+//        copy(tempStudentArray,tempStudentArray+studentsNum,m_students);
+//        m_students[studentsNum] = createStudent("",idToAdd);
+        studentsNum++;
+    }
+}
+

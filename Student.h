@@ -10,9 +10,8 @@
 #define DEFAULT_NAME_LENGTH 5
 #define DEFUALT_ID 99999
 #define ID_LENGTH 5
-#define MIN_GRADE_NUM 1
-#define MAX_GRADE_NUM 100
-#define GRADES_FREQ_SIZE 100
+#define MIN_OPTIONAL_GRADE 1
+#define MAX_OPTIONAL_GRADE 100
 #define PASS_GRADE 60
 
 
@@ -21,7 +20,8 @@ private:
     char* m_name;
     const int m_studentId;
     int totalGrade = 0;
-    static int GRADES_FREQUENCY[GRADES_FREQ_SIZE];
+    static int GRADES_FREQUENCY[MAX_OPTIONAL_GRADE];
+    int _studentGradesFrequency[MAX_OPTIONAL_GRADE];
     int* m_grades;
     float m_avg=0;
     int m_numOfEnteredGrades = 0;
@@ -30,17 +30,18 @@ private:
     int m_numOfGrades = 0;
     /**
      * Use for init the Id because it const
-     * return the expected student value with the given id
+     * return the expected student id with the given id
      */
     int initStudentId(const char* id)const;
-    int initStudentId(int id)const;
     void printFrequencyGradesArray()const;
     void updateMaxGrade();
+    void updateStudentMaxGrade();
     public:
     Student();
     Student(const char* name,const char* id);
     Student(const char* name,int id);
     bool SetName(const char* name);
+    static int expectedStudentId(const int id);
     /**
      * add Grade to the grades array only if valid
      * and update the frequency maxGrade and avg according to the grade

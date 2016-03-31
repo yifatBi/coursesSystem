@@ -1,5 +1,4 @@
 #include <iostream>
-#include "Student.h"
 #include "Course.h"
 
 using namespace std;
@@ -7,10 +6,15 @@ using namespace std;
 int main()
 {
 	Course course;
-	cout<<"is equal :" <<course.isEqual(11111,22222)<<endl;
-	cout<<"is equal :" <<course.isEqual(22222,11111)<<endl;
+	course.print();
+	course.addStudent(456456);
+	course.print();
+	cout<<"is equal :" <<course.isEqual(DEFAULT_ID_1,DEFAULT_ID_2)<<endl;
+	cout<<"is equal :" <<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_1)<<endl;
+	course.addStudent(12322);
+	course.print();
 	cout<<"get student";
-	course.getStudent(11111).print();
+	(*course.getStudent(DEFAULT_ID_1)).print();
 //	cout<<course.findStudent(12345)<<endl;
 //	cout<<course.findStudent(12366)<<endl;
 //	course.print();
@@ -25,7 +29,19 @@ int main()
 	studentValid.isEqual(studentValid);
 	student1.print();
 	studentinValid.print();
-	cout<<"avarage: "<<student.getAverage()<<endl;
+	studentinValid.addGrade(4);
+	student.addGrade(1);
+	student.addGrade(2);
+	student.addGrade(3);
+	student.addGrade(4);
+	student.removeGrade(3);
+	cout<<studentinValid.isEqual(student)<<endl;
+	cout<<student.getStudentMaxGrade()<<endl;
+	student.removeGrade(4);
+	cout<<"Student Max grade :"<<student.getStudentMaxGrade()<<endl;
+	cout<<"all studentd max grade :"<<student.getMaxGrade();
+	student.print();
+	cout<<"student avarage: "<<student.getAverage()<<endl;
 	student.addGrade(12);
 	student.print();
 	cout<<"avarage: "<<student.getAverage()<<endl;
@@ -81,6 +97,14 @@ int main()
 	student.addGrade(15);
 	student.print();
 	Course course2(student,studentValid);
+	course2.addStudent(44444);
+	course2.addStudent(44444);
+	course2.addStudent(44442);
+	course2.print();
+	course2.switchStudents(student.getId(),44442);
+	course2.print();
+//	course2.removeStudent(44442);
+	course2.print();
 	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
 	cout<<"isEqual true:"<<course2.isEqual(student.getId(),studentValid.getId())<<endl;
 	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;

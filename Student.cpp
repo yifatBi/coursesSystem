@@ -2,7 +2,6 @@
 // Created by yifat biezuner on 29/03/2016.
 //
 
-#include <curses.h>
 #include "Student.h"
 #include <iostream>
 
@@ -13,7 +12,7 @@ Student::Student():m_name(NULL),m_studentId(DEFUALT_ID),m_grades(NULL){
 }
 
 bool Student::SetName(const char *name) {
-    if(name&& strlen(name)<= MAX_NAME_LENGTH)
+    if(name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH)
     {
         if(m_name!=NULL)
             delete[] m_name;
@@ -32,19 +31,19 @@ int Student::initStudentId(const char* id)const {
                 return DEFUALT_ID;
             }
         }
-        return stoi(id);
+        return atoi(id);
     }
     return DEFUALT_ID;
 }
-int Student::initStudentId(int number)const {
-    int digits = 0;
-    int copyNumber = number;
-    while (copyNumber != 0||digits>ID_LENGTH) {
-        copyNumber /= 10; digits++; }
-    if(digits== ID_LENGTH)
-        return number;
-    return DEFUALT_ID;
-}
+//static int Student::expectedStudentId(const int number){
+//    int digits = 0;
+//    int copyNumber = number;
+//    while (copyNumber != 0||digits>ID_LENGTH) {
+//        copyNumber /= 10; digits++; }
+//    if(digits== ID_LENGTH)
+//        return number;
+//    return DEFUALT_ID;
+//}
 
 Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(NULL){
     if(!SetName(name)) {
@@ -60,7 +59,7 @@ void Student::print() const {
 }
 
 int Student::maxGrade=0;
-int Student::GRADES_FREQUENCY[GRADES_FREQ_SIZE]{0};
+int Student::GRADES_FREQUENCY[MAX_OPTIONAL_GRADE]{0};
 
 
 Student::~Student() {
@@ -71,7 +70,7 @@ Student::~Student() {
 }
 
 bool isValidGrade(const int grade){
-    if((MIN_GRADE_NUM <= grade) && (grade <= MAX_GRADE_NUM))
+    if((MIN_OPTIONAL_GRADE <= grade) && (grade <= MAX_OPTIONAL_GRADE))
         return true;
     return false;
 }
@@ -105,6 +104,7 @@ void Student::addGrade(const int grade) {
         m_numOfEnteredGrades++;
         totalGrade +=grade;
         GRADES_FREQUENCY[grade - 1]++;
+        _studentGradesFrequency[grade - 1]++;
         m_avg = (float)totalGrade/(float) m_numOfGrades;
     }
 }
@@ -132,24 +132,24 @@ bool Student::removeGrade(const int grade) {
     bool changeMax = (grade==maxGrade);
     bool changeCurrentMax = (grade == m_studentMaxGrade);
 
-    //check if the grade to remove is the max of current student
-    if(changeCurrentMax)
-        m_studentMaxGrade = 0;
     //run on the student grades array if found remove it and update student measures
     for (int i = 0; i <= m_numOfEnteredGrades; ++i) {
        if(m_grades[i]==grade) {
-           m_grades[i]=0;
+            m_grades[i]=0;
            totalGrade -=grade;
            GRADES_FREQUENCY[grade - 1]--;
+           _studentGradesFrequency[grade - 1]--;
            --m_numOfGrades;
            m_avg = (float)totalGrade/(float) m_numOfGrades;
        }
-       else if(changeCurrentMax&& m_grades[i] > m_studentMaxGrade)
-           m_studentMaxGrade = m_grades[i];
     }
     //check if the grade to remove was the max
     if(changeMax&& GRADES_FREQUENCY[grade-1]==0){
         updateMaxGrade();
+    }
+    //check if the grade to remove was the max of student grades
+    if(changeCurrentMax&& _studentGradesFrequency[grade-1]==0){
+        updateStudentMaxGrade();
     }
     return false;
 }
@@ -177,7 +177,7 @@ bool Student::isEqual(Student student) const{
     return true;
 }
 
-Student::Student(const char *name, int id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(NULL){
+Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id)), m_grades(NULL){
     if(!SetName(name)) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);
@@ -186,15 +186,33 @@ Student::Student(const char *name, int id):m_name(NULL),m_studentId(initStudentI
 
 void Student::printGradeFrequency(){
     cout<<"grade freaquency "<<endl;
-    for (int i = 0; i < GRADES_FREQ_SIZE; ++i) {
+    for (int i = 0; i < MAX_OPTIONAL_GRADE; ++i) {
         cout<< i+1 <<" : " <<GRADES_FREQUENCY[i]<<endl;
     }
 }
 
 void Student::updateMaxGrade() {
-    for (int i = maxGrade; i < 0; --i) {
+    for (int i = (maxGrade-1); i >= 0; --i) {
         if(GRADES_FREQUENCY[i-1]>0)
-            Student::maxGrade=i;
+            Student::maxGrade=i+1;
 
     }
+}
+
+void Student::updateStudentMaxGrade() {
+    for (int i = (m_studentMaxGrade-1); i >= 0; --i) {
+        if(_studentGradesFrequency[i-1]>0)
+            m_studentMaxGrade=i+1;
+
+    }
+}
+
+int Student::expectedStudentId(const int id) {
+        int digits = 0;
+    int copyNumber = id;
+    while (copyNumber != 0||digits>ID_LENGTH) {
+        copyNumber /= 10; digits++; }
+    if(digits== ID_LENGTH)
+        return id;
+    return DEFUALT_ID;
 }
