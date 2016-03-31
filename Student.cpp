@@ -35,15 +35,6 @@ int Student::initStudentId(const char* id)const {
     }
     return DEFUALT_ID;
 }
-//static int Student::expectedStudentId(const int number){
-//    int digits = 0;
-//    int copyNumber = number;
-//    while (copyNumber != 0||digits>ID_LENGTH) {
-//        copyNumber /= 10; digits++; }
-//    if(digits== ID_LENGTH)
-//        return number;
-//    return DEFUALT_ID;
-//}
 
 Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(NULL){
     if(!SetName(name)) {
@@ -54,7 +45,7 @@ Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initS
 
 void Student::print() const {
     cout<<m_studentId<<" "<<m_name;
-    printFrequencyGradesArray();
+    printStudentGradesArray();
     cout<<endl;
 }
 
@@ -109,7 +100,7 @@ void Student::addGrade(const int grade) {
     }
 }
 
-void Student::printFrequencyGradesArray() const {
+void Student::printStudentGradesArray() const {
     bool isFirst = true;
     cout<<'(';
     if(m_grades!=NULL){
@@ -208,11 +199,13 @@ void Student::updateStudentMaxGrade() {
 }
 
 int Student::expectedStudentId(const int id) {
-        int digits = 0;
+    int digits = 0;
     int copyNumber = id;
-    while (copyNumber != 0||digits>ID_LENGTH) {
-        copyNumber /= 10; digits++; }
-    if(digits== ID_LENGTH)
+    while (copyNumber != 0 && digits < ID_LENGTH) {
+        copyNumber /= 10;
+        digits++;
+    }
+    if (copyNumber == 0)
         return id;
     return DEFUALT_ID;
 }

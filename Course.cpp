@@ -6,16 +6,14 @@
 
 
 Course::Course():m_students(NULL) {
-    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE]{NULL};
-    m_students[0]=NULL;
-    m_students[1]=NULL;
+    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     m_students[0]= createStudent(DEFAULT_NAME_1, DEFAULT_ID_1);
     m_students[1]= createStudent(DEFAULT_NAME_2, DEFAULT_ID_2);
 }
 
 const int Course::findStudent(const int idToFind) const {
     for (int i = 0; i < studentsNum; ++i) {
-      if((*m_students[i]).getId()==idToFind) {
+      if(m_students[i]!=NULL&&(*m_students[i]).getId()==idToFind) {
           return i;
       }
     }
@@ -27,7 +25,6 @@ void Course::removeStudent(const int idToRemove) {
     if(indexToRemove!=NOT_EXIST) {
         m_students[indexToRemove] = NULL;
         delete (m_students[indexToRemove]);
-        studentsNum--;
     }
 
 }
@@ -35,6 +32,7 @@ void Course::removeStudent(const int idToRemove) {
 void Course::switchStudents(const int firstId, const int secondId) {
     int firstIndex =findStudent(firstId);
     int secondIndex =findStudent(secondId);
+    //check that the student is different and both id's exist in the course
     if(firstId!=secondId&&(firstIndex!=NOT_EXIST)
        &&(secondIndex!=NOT_EXIST)){
         Student * temp = m_students[firstIndex];
@@ -44,9 +42,15 @@ void Course::switchStudents(const int firstId, const int secondId) {
 }
 
 void Course::print() const {
+    int lastIndex=0;
     for (int i = 0; i < studentsNum; ++i) {
-       cout<< i<<" ";
-        (m_students[i])->print();
+        if(m_students[i]!=NULL){
+         cout<< lastIndex<<" ";
+            (m_students[i])->print();
+            lastIndex++;
+        }else{
+            lastIndex=i;
+        }
     }
 }
 
@@ -69,29 +73,20 @@ Student* Course::getStudent(const int idToFind) const {
 }
 
 Course::Course(Student &student1, Student &student2) {
-    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE]{NULL};
-    m_students[0]=NULL;
-    m_students[1]=NULL;
+    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     m_students[0]= &student1;
     m_students[1]= &student2;
 }
 
 Student *Course::createStudent(const char *name, const int id) const {
-    return new Student(name,id);
+    return new Student[1]{Student(name,id)};
 }
-int expectedIdNum(int id) {
-    int digits = 0;
-    int copyNumber = id;
-    while (copyNumber != 0 || digits > ID_LENGTH) {
-        copyNumber /= 10;
-        digits++;
-    }
-    if (digits == ID_LENGTH)
-        return id;
-    return DEFUALT_ID;
+Student Course::createStudent2(const char *name, const int id) const {
+    return Student(name,id);
 }
+
 void Course::addStudent(const int idToAdd) {
-    int expectedId = expectedIdNum(idToAdd);
+    int expectedId = Student::expectedStudentId(idToAdd);
     //Check that the student not exist and the id is valid
     if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
         Student** tempStudentArray = new Student*[studentsNum+1];
@@ -99,9 +94,6 @@ void Course::addStudent(const int idToAdd) {
         tempStudentArray[studentsNum] = createStudent("",idToAdd);
         delete[] m_students;
         m_students = tempStudentArray;
-//        *m_students = new Student[studentsNum+1];
-//        copy(tempStudentArray,tempStudentArray+studentsNum,m_students);
-//        m_students[studentsNum] = createStudent("",idToAdd);
         studentsNum++;
     }
 }

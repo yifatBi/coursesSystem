@@ -103,7 +103,7 @@ int main()
 	course2.print();
 	course2.switchStudents(student.getId(),44442);
 	course2.print();
-//	course2.removeStudent(44442);
+	course2.removeStudent(44442);
 	course2.print();
 	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
 	cout<<"isEqual true:"<<course2.isEqual(student.getId(),studentValid.getId())<<endl;

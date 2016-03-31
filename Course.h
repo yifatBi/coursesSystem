@@ -24,6 +24,7 @@ class Course {
      * create a student with the given values and return it as reference
      */
     Student* createStudent(const char* name,const int id)const;
+    Student createStudent2(const char* name,const int id)const;
 public:
     /**
      * find the student according id from the student list of the course

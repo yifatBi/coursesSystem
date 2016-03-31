@@ -33,7 +33,7 @@ private:
      * return the expected student id with the given id
      */
     int initStudentId(const char* id)const;
-    void printFrequencyGradesArray()const;
+    void printStudentGradesArray()const;
     void updateMaxGrade();
     void updateStudentMaxGrade();
     public:
