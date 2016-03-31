@@ -36,6 +36,8 @@ private:
     void printStudentGradesArray()const;
     void updateMaxGrade();
     void updateStudentMaxGrade();
+    void updateMeasuresAddGrade(const int grade);
+    void updateMeasuresRemoveGrade(const int grade);
     public:
     Student();
     Student(const char* name,const char* id);

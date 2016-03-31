@@ -7,8 +7,9 @@ int main()
 {
 	//default course
 	Course course;
-	Student* student2;
-	Student* student1;
+	Student* pStudent1;
+	Student student1("yifat",12292);
+	Student student2("yifatush",12292);
 	cout<<"Default course : "<<endl;
 	course.print();
 	cout<<"find not exist student expected -1 ---> actual result "<<course.findStudent(23423)<<endl;
@@ -49,35 +50,44 @@ int main()
 	if(course.getStudent(12346)==NULL)
 		cout<<"NULL"<<endl;
 	cout<<"get for exist student expected different from null--->actual result ";
-	if(course.getStudent(DEFAULT_ID_1)!=NULL)
+	if(course.getStudent(DEFAULT_ID_1)!=NULL) {
 		(*course.getStudent(DEFAULT_ID_1)).print();
-	student1 = (course.getStudent(DEFAULT_ID_1));
-	student2 = (course.getStudent(DEFAULT_ID_1));
-	(*student1).addGrade(12);
+		pStudent1 = (course.getStudent(DEFAULT_ID_1));
+		(*pStudent1).addGrade(12);
+		cout<<"init course with 2equal pointers--->course with 1 student"<<endl;
+		Course course2(pStudent1, pStudent1);
+		course2.print();
+	}
 	course.print();
 	cout<<"Check is equal expected result false---->"<<boolalpha<<course.isEqual(DEFAULT_ID_1,DEFAULT_ID_2)<<endl;
 	cout<<"Check is equal expected result true---->"<<boolalpha<<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_1)<<endl;
 	cout<<"Check is equal expected result true---->"<<boolalpha<<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_2)<<endl;
-//	cout<<"create course is 2 equal student";
-//	cout<<"is equal :" <<course.isEqual(DEFAULT_ID_1,DEFAULT_ID_2)<<endl;
-//	cout<<"is equal :" <<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_1)<<endl;
-//	course.addStudent(12322);
-//	course.print();
-//	cout<<"get student";
-//	(*course.getStudent(DEFAULT_ID_1)).print();
-//	cout<<course.findStudent(12345)<<endl;
-//	cout<<course.findStudent(12366)<<endl;
-//	course.print();
-//	course.switchStudents(12345,67890);
-//	course.print();
-//	course.removeStudent(12345);
-//	cout<<"Find removed student : "<<course.findStudent(12345)<<endl;
+	cout<<"create course is 2 equal student----> only 1 student in the course"<<endl;
+	Course course4(NULL, NULL);
+	Course course3(student1, student2);
+	course3.print();
+	cout<<"course init with null pointer expected as default course"<<endl;
+	course4.print();
+	course3.addStudent(11223);
+	course3.addStudent(11224);
+	course3.addStudent(11225);
+	course3.addStudent(11226);
+	cout<<"add students "<<endl;
+	course3.print();
+	course3.removeStudent(11224);
+	course3.removeStudent(11227);
+	course3.removeStudent(student1.getId());
+	cout<<"after remove:"<<endl;
+	course3.print();
+	cout<<"find student 11226 enter student "<<boolalpha<<(course3.findStudent(11226)!=NOT_EXIST)<<endl;
+	cout<<"get the 11226 student "<<endl;
+	(*course3.getStudent(11226)).print();
 //	Student student("yifatush","122");
-//	Student student1("yifatushyifatushyifatushyifatush","12222");
+//	Student pStudent1("yifatushyifatushyifatushyifatush","12222");
 //	Student studentinValid("yifatushyifatushyifatushyifatush","hjkio");
 //	Student studentValid("valid","11111");
 //	studentValid.isEqual(studentValid);
-//	student1.print();
+//	pStudent1.print();
 //	studentinValid.print();
 //	studentinValid.addGrade(4);
 //	student.addGrade(1);

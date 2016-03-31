@@ -61,7 +61,7 @@ Student::~Student() {
 }
 
 bool isValidGrade(const int grade){
-    if((MIN_OPTIONAL_GRADE <= grade) && (grade <= MAX_OPTIONAL_GRADE))
+    if((MIN_OPTIONAL_GRADE <= grade)&&(grade <= MAX_OPTIONAL_GRADE))
         return true;
     return false;
 }
@@ -91,12 +91,7 @@ void Student::addGrade(const int grade) {
         if(grade > m_studentMaxGrade)
             m_studentMaxGrade = grade;
         //Update the measures of the student and update the frequency array
-        m_numOfGrades++;
-        m_numOfEnteredGrades++;
-        totalGrade +=grade;
-        GRADES_FREQUENCY[grade - 1]++;
-        _studentGradesFrequency[grade - 1]++;
-        m_avg = (float)totalGrade/(float) m_numOfGrades;
+        updateMeasuresAddGrade(grade);
     }
 }
 
@@ -127,11 +122,7 @@ bool Student::removeGrade(const int grade) {
     for (int i = 0; i <= m_numOfEnteredGrades; ++i) {
        if(m_grades[i]==grade) {
             m_grades[i]=0;
-           totalGrade -=grade;
-           GRADES_FREQUENCY[grade - 1]--;
-           _studentGradesFrequency[grade - 1]--;
-           --m_numOfGrades;
-           m_avg = (float)totalGrade/(float) m_numOfGrades;
+           updateMeasuresRemoveGrade(grade);
        }
     }
     //check if the grade to remove was the max
@@ -183,6 +174,7 @@ void Student::printGradeFrequency(){
 }
 
 void Student::updateMaxGrade() {
+    Student::maxGrade=0;
     for (int i = (maxGrade-1); i >= 0; --i) {
         if(GRADES_FREQUENCY[i-1]>0)
             Student::maxGrade=i+1;
@@ -191,6 +183,7 @@ void Student::updateMaxGrade() {
 }
 
 void Student::updateStudentMaxGrade() {
+    m_studentMaxGrade=0;
     for (int i = (m_studentMaxGrade-1); i >= 0; --i) {
         if(_studentGradesFrequency[i-1]>0)
             m_studentMaxGrade=i+1;
@@ -208,4 +201,21 @@ int Student::expectedStudentId(const int id) {
     if (copyNumber == 0)
         return id;
     return DEFUALT_ID;
+}
+
+void Student::updateMeasuresRemoveGrade(const int grade) {
+    totalGrade -=grade;
+    GRADES_FREQUENCY[grade - 1]--;
+    _studentGradesFrequency[grade - 1]--;
+    --m_numOfGrades;
+    m_avg = (float)totalGrade/(float) m_numOfGrades;
+}
+
+void Student::updateMeasuresAddGrade(const int grade) {
+    m_numOfGrades++;
+    m_numOfEnteredGrades++;
+    totalGrade +=grade;
+    GRADES_FREQUENCY[grade - 1]++;
+    _studentGradesFrequency[grade - 1]++;
+    m_avg = (float)totalGrade/(float) m_numOfGrades;
 }

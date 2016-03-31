@@ -24,6 +24,7 @@ class Course {
      * create a student with the given values and return it as reference
      */
     Student* createStudent(const char* name,const int id)const;
+    void initDefault();
     Student createStudent2(const char* name,const int id)const;
 public:
     /**
@@ -54,6 +55,7 @@ public:
     void print()const;
     Course();
     Course(Student& student1,Student&student2);
+    Course(Student* student1,Student* student2);
 };
 
 

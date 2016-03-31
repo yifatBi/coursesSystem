@@ -7,13 +7,13 @@
 
 Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
-    m_students[0]= createStudent(DEFAULT_NAME_1, DEFAULT_ID_1);
-    m_students[1]= createStudent(DEFAULT_NAME_2, DEFAULT_ID_2);
+    initDefault();
 }
 
 const int Course::findStudent(const int idToFind) const {
+    int lastIndex=0;
     for (int i = 0; i < studentsNum; ++i) {
-      if(m_students[i]!=NULL&&(*m_students[i]).getId()==idToFind) {
+        if(m_students[i]!=NULL&&(*m_students[i]).getId()==idToFind) {
           return i;
       }
     }
@@ -48,8 +48,6 @@ void Course::print() const {
          cout<< lastIndex<<" ";
             (m_students[i])->print();
             lastIndex++;
-        }else{
-            lastIndex=i;
         }
     }
 }
@@ -75,7 +73,9 @@ Student* Course::getStudent(const int idToFind) const {
 Course::Course(Student &student1, Student &student2) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     m_students[0]= &student1;
-    m_students[1]= &student2;
+    m_students[1]= NULL;
+    if(student1.getId()!= student2.getId())
+        m_students[1]= &student2;
 }
 
 Student *Course::createStudent(const char *name, const int id) const {
@@ -98,3 +98,19 @@ void Course::addStudent(const int idToAdd) {
     }
 }
 
+Course::Course(Student *student1, Student *student2) {
+    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
+    if(student1==NULL&&student2==NULL){
+        initDefault();
+    }else {
+        student1 != NULL ? m_students[0] = student1 : m_students[0] = NULL;
+        m_students[1] = NULL;
+        if (student1 != NULL && student2 != NULL && (*student1).getId() != (*student2).getId())
+            m_students[1] = student2;
+    }
+}
+
+void Course::initDefault() {
+    m_students[0]= createStudent(DEFAULT_NAME_1, DEFAULT_ID_1);
+    m_students[1]= createStudent(DEFAULT_NAME_2, DEFAULT_ID_2);
+}
