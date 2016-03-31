@@ -9,6 +9,8 @@
 using namespace std;
 
 Student::Student():m_name(NULL),m_studentId(DEFUALT_ID),m_grades(NULL){
+    m_name = new char(DEFAULT_NAME_LENGTH);
+    strcpy(m_name, DEFAULT_NAME);
 }
 
 bool Student::SetName(const char *name) {
@@ -24,8 +26,9 @@ bool Student::SetName(const char *name) {
 
 }
 
-int Student::initStudentId(const char* id)const {
-    if(strlen(id)==ID_LENGTH){
+int Student::initStudentId(const char* id,const char* name)const {
+    bool isValidName = (name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH);
+    if(isValidName&&strlen(id)==ID_LENGTH){
         for (int i = 0; i < strlen(id); ++i) {
             if(!isdigit(id[i])){
                 return DEFUALT_ID;
@@ -36,8 +39,8 @@ int Student::initStudentId(const char* id)const {
     return DEFUALT_ID;
 }
 
-Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(0){
-    if(!SetName(name)) {
+Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id,name)),m_grades(0){
+    if(!SetName(name)||m_studentId==DEFUALT_ID) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);
     }
@@ -77,17 +80,6 @@ void Student::addGrade(const int grade) {
             tempArray[m_numOfEnteredGrades] = grade;
             delete[] m_grades;
             m_grades = tempArray;
-//            for (int i = 0; i < m_numOfEnteredGrades; ++i) {
-//                tempArray[i]=m_grades[i];
-//            }
-//            delete[] m_grades;
-//            m_grades = NULL;
-//            m_grades = new int[m_numOfEnteredGrades + 1];
-//            for (int i = 0; i < m_numOfEnteredGrades; ++i) {
-//                m_grades[i]=tempArray[i];
-//            }
-//            m_grades[m_numOfEnteredGrades]=grade;
-//            delete[] tempArray;
         }
         //if the grade greater than the current max update the max
         if(grade>maxGrade)
@@ -200,15 +192,18 @@ void Student::updateStudentMaxGrade() {
         m_studentMaxGrade=0;
 }
 
-int Student::expectedStudentId(const int id) {
-    int digits = 0;
-    int copyNumber = id;
-    while (copyNumber != 0 && digits < ID_LENGTH) {
-        copyNumber /= 10;
-        digits++;
-    }
-    if (copyNumber == 0)
-        return id;
+int Student::expectedStudentId(const int id,const char* name) {
+    bool isValidName = (name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH);
+    if(isValidName) {
+       int digits = 0;
+       int copyNumber = id;
+       while (copyNumber != 0 && digits < ID_LENGTH) {
+           copyNumber /= 10;
+           digits++;
+       }
+       if (copyNumber == 0)
+           return id;
+   }
     return DEFUALT_ID;
 }
 

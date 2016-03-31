@@ -2,6 +2,7 @@
 // Created by yifat biezuner on 29/03/2016.
 //
 #include "Course.h"
+#define DEFAULT_STUDENT_COURSE_NAME "courseStudent"
 Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     initDefault();
@@ -79,13 +80,13 @@ Student *Course::createStudent(const char *name, const int id) const {
 }
 
 void Course::addStudent(const int idToAdd) {
-    int expectedId = Student::expectedStudentId(idToAdd);
+    int expectedId = Student::expectedStudentId(idToAdd,DEFAULT_STUDENT_COURSE_NAME);
     //Check that the student not exist and the id is valid
     //add dynamically element to the grades
     if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
         Student** tempStudentArray = new Student*[m_studentsNum + 1];
         copy(m_students, m_students + m_studentsNum, tempStudentArray);
-        tempStudentArray[m_studentsNum] = createStudent("", idToAdd);
+        tempStudentArray[m_studentsNum] = createStudent(DEFAULT_STUDENT_COURSE_NAME, idToAdd);
         delete[] m_students;
         m_students = tempStudentArray;
         m_studentsNum++;

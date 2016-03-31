@@ -31,7 +31,7 @@ private:
      * Use for init the Id because it const
      * return the expected student id with the given id
      */
-    int initStudentId(const char* id)const;
+    int initStudentId(const char* id,const char* name)const;
     void printStudentGradesArray()const;
     /**
      * update max grade after max grade has been removed
@@ -52,7 +52,7 @@ private:
     Student(const char* name,const char* id);
     Student(const char* name,int id);
     bool SetName(const char* name);
-    static int expectedStudentId(const int id);
+    static int expectedStudentId(const int id,const char* name);
     /**
      * add Grade to the grades array only if valid
      * and update the frequency maxGrade and avg according to the grade
