@@ -1,6 +1,10 @@
+/**
+ * This program create course and handle it's students.
+ * Each student have unique id, name, list of grades and measures regarding the his grades like averege and max grade.
+ * Also have Data of all students in the program like all grades frequency and max grade.
+ */
 #include <iostream>
 #include "Course.h"
-
 using namespace std;
 
 int main()
@@ -52,12 +56,12 @@ int main()
 	cout<<"get for exist student expected different from null--->actual result ";
 	if(course.getStudent(DEFAULT_ID_1)!=NULL) {
 		(*course.getStudent(DEFAULT_ID_1)).print();
+	}
 		pStudent1 = (course.getStudent(DEFAULT_ID_1));
 		(*pStudent1).addGrade(12);
 		cout<<"init course with 2equal pointers--->course with 1 student"<<endl;
 		Course course2(pStudent1, pStudent1);
 		course2.print();
-	}
 	course.print();
 	cout<<"Check is equal expected result false---->"<<boolalpha<<course.isEqual(DEFAULT_ID_1,DEFAULT_ID_2)<<endl;
 	cout<<"Check is equal expected result true---->"<<boolalpha<<course.isEqual(DEFAULT_ID_2,DEFAULT_ID_1)<<endl;
@@ -82,94 +86,37 @@ int main()
 	cout<<"find student 11226 enter student "<<boolalpha<<(course3.findStudent(11226)!=NOT_EXIST)<<endl;
 	cout<<"get the 11226 student "<<endl;
 	(*course3.getStudent(11226)).print();
-//	Student student("yifatush","122");
-//	Student pStudent1("yifatushyifatushyifatushyifatush","12222");
-//	Student studentinValid("yifatushyifatushyifatushyifatush","hjkio");
-//	Student studentValid("valid","11111");
-//	studentValid.isEqual(studentValid);
-//	pStudent1.print();
-//	studentinValid.print();
-//	studentinValid.addGrade(4);
-//	student.addGrade(1);
-//	student.addGrade(2);
-//	student.addGrade(3);
-//	student.addGrade(4);
-//	student.removeGrade(3);
-//	cout<<studentinValid.isEqual(student)<<endl;
-//	cout<<student.getStudentMaxGrade()<<endl;
-//	student.removeGrade(4);
-//	cout<<"Student Max grade :"<<student.getStudentMaxGrade()<<endl;
-//	cout<<"all studentd max grade :"<<student.getMaxGrade();
-//	student.print();
-//	cout<<"student avarage: "<<student.getAverage()<<endl;
-//	student.addGrade(12);
-//	student.print();
-//	cout<<"avarage: "<<student.getAverage()<<endl;
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	cout<<"max grade: "<<Student::getMaxGrade()<<endl;
-//	student.print();
-//	cout<<"avarage: "<<student.getAverage()<<endl;
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	cout<<"is equal to himself with values:"<<student.isEqual(student)<<endl;
-//	studentValid.print();
-//	student.print();
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	student.addGrade(15);
-//	Student::printGradeFrequency();
-//	cout<<"have fails :";
-//	std::cout << std::boolalpha << student.isFail() << std::endl;
-//	student.removeGrade(15);
-//	cout<<"remove grade 15 :";
-//	Student::printGradeFrequency();
-//	student.print();
-//	cout<<"avarage: "<<student.getAverage()<<endl;
-//	student.addGrade(0);
-//	student.print();
-//	student.removeGrade(13);
-//	student.print();
-//	student.removeGrade(12);
-//	student.print();
-//	student.removeGrade(12);
-//	student.print();
-//	cout<<"No values is fail false :";
-//	std::cout << std::boolalpha << student.isFail() << std::endl;
-//	studentValid.addGrade(80);
-//	cout<<studentValid.getStudentMaxGrade()<<endl;
-//	cout<<student.getStudentMaxGrade()<<endl;
-//	cout<<student.getMaxGrade()<<endl;
-//	cout<<"No failed false :";
-//	std::cout << std::boolalpha << studentValid.isFail() << std::endl;
-//	studentValid.addGrade(15);
-//	cout<<"max grade: "<<Student::getMaxGrade()<<endl;
-//	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
-//	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
-//	studentValid.print();
-//	Student::printGradeFrequency();
-//	cout<<"Max Grade:"<<Student::getMaxGrade()<<endl;
-//	student.addGrade(15);
-//	student.print();
-//	Course course2(student,studentValid);
-//	course2.addStudent(44444);
-//	course2.addStudent(44444);
-//	course2.addStudent(44442);
-//	course2.print();
-//	course2.switchStudents(student.getId(),44442);
-//	course2.print();
-//	course2.removeStudent(44442);
-//	course2.print();
-//	cout<<"isEqual true:"<<student.isEqual(studentValid)<<endl;
-//	cout<<"isEqual true:"<<course2.isEqual(student.getId(),studentValid.getId())<<endl;
-//	cout<<"isEqual false:"<<studentValid.isEqual(student)<<endl;
-//	cout<<"isEqual false:"<<course2.isEqual(studentValid.getId(),student.getId())<<endl;
 
+	//Test student
+	cout<<"student without name default name :";
+	Student noName("",12345);
+	noName.print();
+	noName.addGrade(100);
+	noName.addGrade(2);
+	noName.addGrade(99);
+	noName.addGrade(1);
+	noName.print();
+	cout<<"add grade 100 to another student"<<endl;
+	(*course3.getStudent(11226)).addGrade(100);
+	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
+	noName.removeGrade(100);
+	noName.print();
+	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;	noName.removeGrade(2);
+	noName.removeGrade(1);
+	noName.print();
+	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;	noName.removeGrade(99);
+	noName.print();
+	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
+	(*course3.getStudent(11226)).removeGrade(100);
+	cout<<"Only 1 grade of 12 in the system max grade: "<<Student::getMaxGrade()<<endl;
+	Student::printGradeFrequency();
+	(*pStudent1).removeGrade(12);
+	cout<<"No grades in the system max grade : "<<Student::getMaxGrade()<<endl;
+	Student::printGradeFrequency();
 
 	return 0;
 }

@@ -1,11 +1,8 @@
 //
 // Created by yifat biezuner on 29/03/2016.
 //
-
-#ifndef TIRGUL4_EX_AND_SOL_COURSE_H
-#define TIRGUL4_EX_AND_SOL_COURSE_H
-
-
+#ifndef _COURSE_H
+#define _COURSE_H
 #include "Student.h"
 #include <iostream>
 #include <string.h>
@@ -59,4 +56,4 @@ public:
 };
 
 
-#endif //TIRGUL4_EX_AND_SOL_COURSE_H
+#endif //_COURSE_H

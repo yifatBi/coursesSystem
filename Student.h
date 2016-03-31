@@ -2,8 +2,8 @@
 // Created by yifat biezuner on 29/03/2016.
 //
 
-#ifndef TIRGUL4_EX_AND_SOL_STUDENT_H
-#define TIRGUL4_EX_AND_SOL_STUDENT_H
+#ifndef _STUDENT_H
+#define _STUDENT_H
 #include <string.h>
 #define MAX_NAME_LENGTH 20
 #define DEFAULT_NAME "none"
@@ -34,9 +34,19 @@ private:
      */
     int initStudentId(const char* id)const;
     void printStudentGradesArray()const;
+    /**
+     * update max grade after max grade has been removed
+     * Go from the current max grade down till value if not fount init max with 0
+     */
     void updateMaxGrade();
     void updateStudentMaxGrade();
+    /**
+     * Update student measures after add grade(avg and grades frequency)
+     */
     void updateMeasuresAddGrade(const int grade);
+    /**
+    * Update student measures after remove grade(avg and grades frequency)
+    */
     void updateMeasuresRemoveGrade(const int grade);
     public:
     Student();
@@ -53,7 +63,7 @@ private:
      * remove Grade to the grades array only if valid
      * and update the frequency maxGrade and avg according to the grade
      */
-    bool removeGrade(const int grade);
+    void removeGrade(const int grade);
     /**
      * check if all grades of current student exist in the grades of student given as parameter
      */
@@ -72,4 +82,4 @@ private:
 };
 
 
-#endif //TIRGUL4_EX_AND_SOL_STUDENT_H
+#endif //_STUDENT_H

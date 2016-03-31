@@ -36,7 +36,7 @@ int Student::initStudentId(const char* id)const {
     return DEFUALT_ID;
 }
 
-Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(NULL){
+Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id)),m_grades(0){
     if(!SetName(name)) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);
@@ -72,18 +72,22 @@ void Student::addGrade(const int grade) {
             m_grades[0]=grade;
         }else{
             int* tempArray =NULL;
-            tempArray= new int[m_numOfEnteredGrades];
-            for (int i = 0; i < m_numOfEnteredGrades; ++i) {
-                tempArray[i]=m_grades[i];
-            }
+            tempArray= new int[m_numOfEnteredGrades+1];
+            copy(m_grades,m_grades+m_numOfEnteredGrades,tempArray);
+            tempArray[m_numOfEnteredGrades] = grade;
             delete[] m_grades;
-            m_grades = NULL;
-            m_grades = new int[m_numOfEnteredGrades + 1];
-            for (int i = 0; i < m_numOfEnteredGrades; ++i) {
-                m_grades[i]=tempArray[i];
-            }
-            m_grades[m_numOfEnteredGrades]=grade;
-            delete[] tempArray;
+            m_grades = tempArray;
+//            for (int i = 0; i < m_numOfEnteredGrades; ++i) {
+//                tempArray[i]=m_grades[i];
+//            }
+//            delete[] m_grades;
+//            m_grades = NULL;
+//            m_grades = new int[m_numOfEnteredGrades + 1];
+//            for (int i = 0; i < m_numOfEnteredGrades; ++i) {
+//                m_grades[i]=tempArray[i];
+//            }
+//            m_grades[m_numOfEnteredGrades]=grade;
+//            delete[] tempArray;
         }
         //if the grade greater than the current max update the max
         if(grade>maxGrade)
@@ -113,8 +117,7 @@ void Student::printStudentGradesArray() const {
 
 }
 
-bool Student::removeGrade(const int grade) {
-    m_numOfEnteredGrades = m_numOfGrades;
+void Student::removeGrade(const int grade) {
     bool changeMax = (grade==maxGrade);
     bool changeCurrentMax = (grade == m_studentMaxGrade);
 
@@ -133,12 +136,12 @@ bool Student::removeGrade(const int grade) {
     if(changeCurrentMax&& _studentGradesFrequency[grade-1]==0){
         updateStudentMaxGrade();
     }
-    return false;
+    int a=4;
 }
 
 const bool Student::isFail() {
     for (int i = 0; i < m_numOfEnteredGrades; ++i) {
-        if(m_grades[i]<PASS_GRADE)
+        if(m_grades[i]>0&&m_grades[i]<PASS_GRADE)
             return true;
     }
     return false;
@@ -159,7 +162,7 @@ bool Student::isEqual(Student student) const{
     return true;
 }
 
-Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id)), m_grades(NULL){
+Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id)), m_grades(0){
     if(!SetName(name)) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);
@@ -174,21 +177,27 @@ void Student::printGradeFrequency(){
 }
 
 void Student::updateMaxGrade() {
-    Student::maxGrade=0;
-    for (int i = (maxGrade-1); i >= 0; --i) {
-        if(GRADES_FREQUENCY[i-1]>0)
-            Student::maxGrade=i+1;
-
+    bool isFound=false;
+    for (int i = (maxGrade-1); i >= 0&&!isFound; --i) {
+        if(GRADES_FREQUENCY[i-1]>0) {
+            Student::maxGrade = i;
+            isFound=true;
+        }
     }
+    if(!isFound)
+        Student::maxGrade=0;
 }
 
 void Student::updateStudentMaxGrade() {
-    m_studentMaxGrade=0;
-    for (int i = (m_studentMaxGrade-1); i >= 0; --i) {
-        if(_studentGradesFrequency[i-1]>0)
-            m_studentMaxGrade=i+1;
-
+    bool isFound=false;
+    for (int i = (m_studentMaxGrade-1); i >= 0&&!isFound; --i) {
+        if(_studentGradesFrequency[i-1]>0) {
+            m_studentMaxGrade = i;
+            isFound=true;
+        }
     }
+    if(!isFound)
+        m_studentMaxGrade=0;
 }
 
 int Student::expectedStudentId(const int id) {
@@ -208,7 +217,7 @@ void Student::updateMeasuresRemoveGrade(const int grade) {
     GRADES_FREQUENCY[grade - 1]--;
     _studentGradesFrequency[grade - 1]--;
     --m_numOfGrades;
-    m_avg = (float)totalGrade/(float) m_numOfGrades;
+    m_avg = (m_numOfGrades==0)?0:(float)totalGrade/(float) m_numOfGrades;
 }
 
 void Student::updateMeasuresAddGrade(const int grade) {

@@ -1,17 +1,13 @@
 //
 // Created by yifat biezuner on 29/03/2016.
 //
-
 #include "Course.h"
-
-
 Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     initDefault();
 }
 
 const int Course::findStudent(const int idToFind) const {
-    int lastIndex=0;
     for (int i = 0; i < studentsNum; ++i) {
         if(m_students[i]!=NULL&&(*m_students[i]).getId()==idToFind) {
           return i;
@@ -88,6 +84,7 @@ Student Course::createStudent2(const char *name, const int id) const {
 void Course::addStudent(const int idToAdd) {
     int expectedId = Student::expectedStudentId(idToAdd);
     //Check that the student not exist and the id is valid
+    //add dynamically element to the grades
     if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
         Student** tempStudentArray = new Student*[studentsNum+1];
         copy(m_students,m_students+studentsNum,tempStudentArray);
@@ -100,9 +97,11 @@ void Course::addStudent(const int idToAdd) {
 
 Course::Course(Student *student1, Student *student2) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
+   //if null pointer call the default init
     if(student1==NULL&&student2==NULL){
         initDefault();
     }else {
+        //if pointer different from null init with the pointer else init null
         student1 != NULL ? m_students[0] = student1 : m_students[0] = NULL;
         m_students[1] = NULL;
         if (student1 != NULL && student2 != NULL && (*student1).getId() != (*student2).getId())
