@@ -1,6 +1,3 @@
-//
-// Created by yifat biezuner on 29/03/2016.
-//
 #include "Course.h"
 Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];

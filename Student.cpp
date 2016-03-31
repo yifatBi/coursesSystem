@@ -1,7 +1,3 @@
-//
-// Created by yifat biezuner on 29/03/2016.
-//
-
 #include "Student.h"
 #include <iostream>
 
@@ -162,7 +158,7 @@ Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedSt
 }
 
 void Student::printGradeFrequency(){
-    cout<<"grade freaquency "<<endl;
+    cout<<"All grades freaquency "<<endl;
     for (int i = 0; i < MAX_OPTIONAL_GRADE; ++i) {
         cout<< i+1 <<" : " <<GRADES_FREQUENCY[i]<<endl;
     }

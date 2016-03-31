@@ -1,7 +1,3 @@
-//
-// Created by yifat biezuner on 29/03/2016.
-//
-
 #ifndef _STUDENT_H
 #define _STUDENT_H
 #define MAX_NAME_LENGTH 20
@@ -71,7 +67,7 @@ private:
     static int getMaxGrade(){ return maxGrade;}
     int const getStudentMaxGrade()const{ return m_studentMaxGrade;}
     /**
-     * Check if have Fails grades (Under the PASS_GRADE)
+     * Check if Student have Fails grades(Under the PASS_GRADE)
      */
     const bool isFail();
     int getId()const{ return m_studentId;};

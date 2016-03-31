@@ -1,6 +1,3 @@
-//
-// Created by yifat biezuner on 29/03/2016.
-//
 #ifndef _COURSE_H
 #define _COURSE_H
 #include "Student.h"
@@ -28,7 +25,7 @@ class Course {
 public:
     /**
      * find the student according id from the student list of the course
-     * retuen NOT_EXIST value if didn't found
+     * return NOT_EXIST value if didn't found
      */
     const int findStudent(const int idToFind)const;
     /**
@@ -36,11 +33,13 @@ public:
      */
     Student* getStudent(const int idToFind)const;
     /**
-     * if student exist according to given id remove it from the list
+     * if student exist according to given id remove it from the list of students in this course
      */
     void removeStudent(const int idToRemove);
     /**
-     * add student to students array if valid
+     * If valid Id and this student is not already part of this course
+     * add student with the given id and generated name(according to default name and number of students in this course)
+     * to students array
      */
     void addStudent(const int idToAdd);
     /**
