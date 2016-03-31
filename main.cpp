@@ -97,6 +97,11 @@ int main()
 	noName.addGrade(99);
 	noName.addGrade(1);
 	noName.print();
+	noName.addGrade(100);
+	noName.addGrade(-4);
+	noName.addGrade(101);
+	cout<<"add 100 again and also add -4 and 101---->expected another 100 added"<<endl;
+	noName.print();
 	cout<<"add grade 100 to another student"<<endl;
 	(*course3.getStudent(11226)).addGrade(100);
 	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
