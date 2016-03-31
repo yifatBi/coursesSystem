@@ -1,6 +1,7 @@
 /**
+ * Course system with students written by Yifat Biezuner 31/03/2016
  * This program create course and handle it's students.
- * Each student have unique id, name, list of grades and measures regarding the his grades like averege and max grade.
+ * Each student in course have unique id, name, list of grades and measures regarding the his grades like averege and max grade.
  * Also have Data of all students in the program like all grades frequency and max grade.
  */
 #include <iostream>
@@ -87,36 +88,59 @@ int main()
 	cout<<"find student 11226 enter student "<<boolalpha<<(course3.findStudent(11226)!=NOT_EXIST)<<endl;
 	cout<<"get the 11226 student "<<endl;
 	(*course3.getStudent(11226)).print();
+	(*course3.getStudent(11226)).SetName("New name");
+	cout<<"Set name of student 11226:"<<endl;
+	course3.print();
 
 	//Test student
 	cout<<"student without name default name :";
 	Student noName("",12345);
 	noName.print();
-	noName.addGrade(100);
-	noName.addGrade(2);
-	noName.addGrade(99);
-	noName.addGrade(1);
-	noName.print();
-	noName.addGrade(100);
-	noName.addGrade(-4);
-	noName.addGrade(101);
+	cout<<"student with invalid name default values :";
+	Student noName1("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",12345);
+	noName1.print();
+	cout<<"student with invalid id min length default values :";
+	Student invalidId("yifat",1234);
+	invalidId.print();
+	cout<<"student with invalid id max length default values :";
+	Student invalidIdMax("yifat",123444);
+	invalidIdMax.print();
+	cout<<"student with invalid id no digit default values :";
+	Student invalidIdDigit("yifat","h12hh");
+	invalidIdDigit.print();
+	cout<<"student with invalid name and id default values :";
+	Student invalidNameAndId("","");
+	invalidNameAndId.print();
+	cout<<"student valid name yifat Biezuner and id 12092 values :";
+	Student studentYifat("yifat Biezuner","12092");
+	studentYifat.print();
+	studentYifat.addGrade(100);
+	studentYifat.addGrade(2);
+	studentYifat.addGrade(99);
+	studentYifat.addGrade(1);
+	studentYifat.print();
+	studentYifat.addGrade(100);
+	studentYifat.addGrade(-4);
+	studentYifat.addGrade(101);
 	cout<<"add 100 again and also add -4 and 101---->expected another 100 added"<<endl;
-	noName.print();
+	studentYifat.print();
 	cout<<"add grade 100 to another student"<<endl;
 	(*course3.getStudent(11226)).addGrade(100);
-	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
-	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
-	noName.removeGrade(100);
-	noName.print();
-	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
-	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;	noName.removeGrade(2);
-	noName.removeGrade(1);
-	noName.print();
-	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
-	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;	noName.removeGrade(99);
-	noName.print();
-	cout<<"Measures : average="<<noName.getAverage()<<" Current studentMaxGrade="<<noName.getStudentMaxGrade()<<" have fails="<<
-	boolalpha<<noName.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
+	cout<<"Measures : average="<<studentYifat.getAverage()<<" Current studentMaxGrade="<<studentYifat.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<studentYifat.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
+	studentYifat.removeGrade(100);
+	studentYifat.print();
+	cout<<"Measures : average="<<studentYifat.getAverage()<<" Current studentMaxGrade="<<studentYifat.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<studentYifat.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
+	studentYifat.removeGrade(2);
+	studentYifat.removeGrade(1);
+	studentYifat.print();
+	cout<<"Measures : average="<<studentYifat.getAverage()<<" Current studentMaxGrade="<<studentYifat.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<studentYifat.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
+	studentYifat.removeGrade(99);
+	studentYifat.print();
+	cout<<"Measures : average="<<studentYifat.getAverage()<<" Current studentMaxGrade="<<studentYifat.getStudentMaxGrade()<<" have fails="<<
+	boolalpha<<studentYifat.isFail()<<" Total max: "<<Student::getMaxGrade()<<endl;
 	(*course3.getStudent(11226)).removeGrade(100);
 	cout<<"Only 1 grade of 12 in the system max grade: "<<Student::getMaxGrade()<<endl;
 	Student::printGradeFrequency();

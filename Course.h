@@ -5,6 +5,7 @@
 #define _COURSE_H
 #include "Student.h"
 #include <iostream>
+#define DEFAULT_STUDENT_COURSE_NAME "courseStudent"
 #define STUDENT_DEFAULT_ARRAY_SIZE 2
 #define NOT_EXIST -1
 #define DEFAULT_NAME_1 "auto1"

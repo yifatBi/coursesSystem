@@ -154,8 +154,8 @@ bool Student::isEqual(Student student) const{
     return true;
 }
 
-Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id)), m_grades(0){
-    if(!SetName(name)) {
+Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id,name)), m_grades(0){
+    if(m_studentId==DEFUALT_ID||!SetName(name)) {
         m_name = new char(DEFAULT_NAME_LENGTH);
         strcpy(m_name, DEFAULT_NAME);
     }
@@ -201,7 +201,7 @@ int Student::expectedStudentId(const int id,const char* name) {
            copyNumber /= 10;
            digits++;
        }
-       if (copyNumber == 0)
+       if (copyNumber == 0&&digits==ID_LENGTH)
            return id;
    }
     return DEFUALT_ID;

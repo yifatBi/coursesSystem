@@ -2,7 +2,6 @@
 // Created by yifat biezuner on 29/03/2016.
 //
 #include "Course.h"
-#define DEFAULT_STUDENT_COURSE_NAME "courseStudent"
 Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     initDefault();
@@ -86,7 +85,11 @@ void Course::addStudent(const int idToAdd) {
     if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
         Student** tempStudentArray = new Student*[m_studentsNum + 1];
         copy(m_students, m_students + m_studentsNum, tempStudentArray);
-        tempStudentArray[m_studentsNum] = createStudent(DEFAULT_STUDENT_COURSE_NAME, idToAdd);
+        //Generate the student name according to DEFAULT_STUDENT_COURSE_NAME and number of student in the course
+        char* studentName =new char[strlen(DEFAULT_STUDENT_COURSE_NAME)+1+strlen(to_string(m_studentsNum).c_str())];
+        strcpy(studentName,DEFAULT_STUDENT_COURSE_NAME);
+        strcat(studentName, to_string(m_studentsNum).c_str());
+        tempStudentArray[m_studentsNum] = createStudent(studentName, idToAdd);
         delete[] m_students;
         m_students = tempStudentArray;
         m_studentsNum++;
