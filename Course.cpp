@@ -1,4 +1,5 @@
 #include "Course.h"
+#include <string>
 Course::Course():m_students(NULL) {
     m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
     initDefault();

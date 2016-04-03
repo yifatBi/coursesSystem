@@ -5,7 +5,7 @@
 using namespace std;
 
 Student::Student():m_name(NULL),m_studentId(DEFUALT_ID),m_grades(NULL){
-    m_name = new char(DEFAULT_NAME_LENGTH);
+    m_name = new char[DEFAULT_NAME_LENGTH+1];
     strcpy(m_name, DEFAULT_NAME);
 }
 
@@ -25,7 +25,7 @@ bool Student::SetName(const char *name) {
 int Student::initStudentId(const char* id,const char* name)const {
     bool isValidName = (name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH);
     if(isValidName&&strlen(id)==ID_LENGTH){
-        for (int i = 0; i < strlen(id); ++i) {
+        for (int i = 0; i < ID_LENGTH; ++i) {
             if(!isdigit(id[i])){
                 return DEFUALT_ID;
             }
@@ -37,7 +37,7 @@ int Student::initStudentId(const char* id,const char* name)const {
 
 Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id,name)),m_grades(0){
     if(!SetName(name)||m_studentId==DEFUALT_ID) {
-        m_name = new char(DEFAULT_NAME_LENGTH);
+        m_name = new char[DEFAULT_NAME_LENGTH+1];
         strcpy(m_name, DEFAULT_NAME);
     }
 }
@@ -152,7 +152,7 @@ bool Student::isEqual(Student student) const{
 
 Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id,name)), m_grades(0){
     if(m_studentId==DEFUALT_ID||!SetName(name)) {
-        m_name = new char(DEFAULT_NAME_LENGTH);
+        m_name = new char[DEFAULT_NAME_LENGTH+1];
         strcpy(m_name, DEFAULT_NAME);
     }
 }
