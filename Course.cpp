@@ -5,6 +5,40 @@ Course::Course():m_students(NULL) {
     initDefault();
 }
 
+Course::Course(Student *student1, Student *student2) {
+    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
+    //if null pointer call the default init
+    if(student1==NULL&&student2==NULL){
+        initDefault();
+    }else {
+        m_studentsNum=0;
+        //if pointer different from null init with the pointer else init null
+        if(student1 != NULL) {
+            m_students[0] = student1;
+            m_studentsNum++;
+        }else{
+            m_students[0] = NULL;
+        }
+        m_students[1] = NULL;
+        if (student1 != NULL && student2 != NULL && (*student1).getId() != (*student2).getId()){
+            m_students[1] = student2;
+            m_studentsNum++;
+        }
+    }
+}
+
+Course::Course(Student &student1, Student &student2) {
+    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
+    m_students[0]= &student1;
+    m_students[1]= NULL;
+    m_studentsNum = 1;
+    //add second student only if different from the first one
+    if(student1.getId()!= student2.getId()){
+        m_students[1]= &student2;
+        m_studentsNum++;
+    }
+}
+
 const int Course::findStudent(const int idToFind) const {
     for (int i = 0; i < m_studentsNum; ++i) {
         if(m_students[i]!=NULL&&(*m_students[i]).getId()==idToFind) {
@@ -64,13 +98,6 @@ Student* Course::getStudent(const int idToFind) const {
     return NULL;
 }
 
-Course::Course(Student &student1, Student &student2) {
-    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
-    m_students[0]= &student1;
-    m_students[1]= NULL;
-    if(student1.getId()!= student2.getId())
-        m_students[1]= &student2;
-}
 
 Student *Course::createStudent(const char *name, const int id) const {
     return new Student[1]{Student(name,id)};
@@ -83,10 +110,12 @@ void Course::addStudent(const int idToAdd) {
     if(getStudent(idToAdd)==NULL&& expectedId != DEFUALT_ID){
         Student** tempStudentArray = new Student*[m_studentsNum + 1];
         copy(m_students, m_students + m_studentsNum, tempStudentArray);
+        //generate name of next student according is number in the course
+        int nextStudentNum = m_studentsNum+1;
         //Generate the student name according to DEFAULT_STUDENT_COURSE_NAME and number of student in the course
-        char* studentName =new char[strlen(DEFAULT_STUDENT_COURSE_NAME)+1+strlen(to_string(m_studentsNum).c_str())];
+        char* studentName =new char[strlen(DEFAULT_STUDENT_COURSE_NAME)+1+strlen(to_string(nextStudentNum).c_str())];
         strcpy(studentName,DEFAULT_STUDENT_COURSE_NAME);
-        strcat(studentName, to_string(m_studentsNum).c_str());
+        strcat(studentName, to_string(nextStudentNum).c_str());
         tempStudentArray[m_studentsNum] = createStudent(studentName, idToAdd);
         delete[] m_students;
         m_students = tempStudentArray;
@@ -94,19 +123,6 @@ void Course::addStudent(const int idToAdd) {
     }
 }
 
-Course::Course(Student *student1, Student *student2) {
-    m_students = new Student*[STUDENT_DEFAULT_ARRAY_SIZE];
-   //if null pointer call the default init
-    if(student1==NULL&&student2==NULL){
-        initDefault();
-    }else {
-        //if pointer different from null init with the pointer else init null
-        student1 != NULL ? m_students[0] = student1 : m_students[0] = NULL;
-        m_students[1] = NULL;
-        if (student1 != NULL && student2 != NULL && (*student1).getId() != (*student2).getId())
-            m_students[1] = student2;
-    }
-}
 
 void Course::initDefault() {
     m_students[0]= createStudent(DEFAULT_NAME_1, DEFAULT_ID_1);

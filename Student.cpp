@@ -1,14 +1,22 @@
 #include "Student.h"
-#include <iostream>
-
-
 using namespace std;
 
 Student::Student():m_name(NULL),m_studentId(DEFUALT_ID),m_grades(NULL){
     m_name = new char[DEFAULT_NAME_LENGTH+1];
     strcpy(m_name, DEFAULT_NAME);
 }
-
+Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id,name)), m_grades(0){
+    if(m_studentId==DEFUALT_ID||!SetName(name)) {
+        m_name = new char[DEFAULT_NAME_LENGTH+1];
+        strcpy(m_name, DEFAULT_NAME);
+    }
+}
+Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id,name)),m_grades(0){
+    if(!SetName(name)||m_studentId==DEFUALT_ID) {
+        m_name = new char[DEFAULT_NAME_LENGTH+1];
+        strcpy(m_name, DEFAULT_NAME);
+    }
+}
 bool Student::SetName(const char *name) {
     if(name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH)
     {
@@ -20,6 +28,14 @@ bool Student::SetName(const char *name) {
     }
     return false;
 
+}
+
+int Student::maxGrade=0;
+int Student::GRADES_FREQUENCY[MAX_OPTIONAL_GRADE]{0};
+bool isValidGrade(const int grade){
+    if((MIN_OPTIONAL_GRADE <= grade)&&(grade <= MAX_OPTIONAL_GRADE))
+        return true;
+    return false;
 }
 
 int Student::initStudentId(const char* id,const char* name)const {
@@ -35,11 +51,19 @@ int Student::initStudentId(const char* id,const char* name)const {
     return DEFUALT_ID;
 }
 
-Student::Student(const char *name,const char* id):m_name(NULL),m_studentId(initStudentId(id,name)),m_grades(0){
-    if(!SetName(name)||m_studentId==DEFUALT_ID) {
-        m_name = new char[DEFAULT_NAME_LENGTH+1];
-        strcpy(m_name, DEFAULT_NAME);
+int Student::expectedStudentId(const int id,const char* name) {
+    bool isValidName = (name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH);
+    if(isValidName) {
+        int digits = 0;
+        int copyNumber = id;
+        while (copyNumber != 0 && digits < ID_LENGTH) {
+            copyNumber /= 10;
+            digits++;
+        }
+        if (copyNumber == 0&&digits==ID_LENGTH)
+            return id;
     }
+    return DEFUALT_ID;
 }
 
 void Student::print() const {
@@ -48,22 +72,6 @@ void Student::print() const {
     cout<<endl;
 }
 
-int Student::maxGrade=0;
-int Student::GRADES_FREQUENCY[MAX_OPTIONAL_GRADE]{0};
-
-
-Student::~Student() {
-    if(m_grades!=NULL){
-        m_grades=NULL;
-        delete[] m_grades;
-    }
-}
-
-bool isValidGrade(const int grade){
-    if((MIN_OPTIONAL_GRADE <= grade)&&(grade <= MAX_OPTIONAL_GRADE))
-        return true;
-    return false;
-}
 void Student::addGrade(const int grade) {
     if(isValidGrade(grade)){
         if(m_grades==NULL){
@@ -150,13 +158,6 @@ bool Student::isEqual(Student student) const{
     return true;
 }
 
-Student::Student(const char *name, int id): m_name(NULL), m_studentId(expectedStudentId(id,name)), m_grades(0){
-    if(m_studentId==DEFUALT_ID||!SetName(name)) {
-        m_name = new char[DEFAULT_NAME_LENGTH+1];
-        strcpy(m_name, DEFAULT_NAME);
-    }
-}
-
 void Student::printGradeFrequency(){
     cout<<"All grades freaquency "<<endl;
     for (int i = 0; i < MAX_OPTIONAL_GRADE; ++i) {
@@ -188,21 +189,6 @@ void Student::updateStudentMaxGrade() {
         m_studentMaxGrade=0;
 }
 
-int Student::expectedStudentId(const int id,const char* name) {
-    bool isValidName = (name!=NULL&&strlen(name)>0&&strlen(name)<= MAX_NAME_LENGTH);
-    if(isValidName) {
-       int digits = 0;
-       int copyNumber = id;
-       while (copyNumber != 0 && digits < ID_LENGTH) {
-           copyNumber /= 10;
-           digits++;
-       }
-       if (copyNumber == 0&&digits==ID_LENGTH)
-           return id;
-   }
-    return DEFUALT_ID;
-}
-
 void Student::updateMeasuresRemoveGrade(const int grade) {
     m_totalGrade -=grade;
     GRADES_FREQUENCY[grade - 1]--;
@@ -218,4 +204,11 @@ void Student::updateMeasuresAddGrade(const int grade) {
     GRADES_FREQUENCY[grade - 1]++;
     m_studentGradesFrequency[grade - 1]++;
     m_avg = (float) m_totalGrade / (float) m_numOfGrades;
+}
+
+Student::~Student() {
+    if(m_grades!=NULL){
+        m_grades=NULL;
+        delete[] m_grades;
+    }
 }
